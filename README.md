@@ -1,5 +1,5 @@
 # go-algorithms
-Another bag of algorithms that I will probably stop adding things in the future, but now in Go!
+Another bag of algorithms that I will probably abandon in the future, but now in Go!
 
 ## sortmultiple
 
