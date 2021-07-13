@@ -20,4 +20,4 @@ jobs:
 
     - name: Benchmark sort
       working-directory: ./sortmultiple 
-      run: make bench-sort benchtime=0.1s
+      run: make bench-sort benchtime=0.01
