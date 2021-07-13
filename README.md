@@ -1,4 +1,5 @@
-# go-algorithms
+# go-algorithms [![Go](https://github.com/massahud/go-algorithms/actions/workflows/go.yml/badge.svg)](https://github.com/massahud/go-algorithms/actions/workflows/go.yml)
+
 Another bag of algorithms that I will probably abandon in the future, but now in Go!
 
 ## sortmultiple
