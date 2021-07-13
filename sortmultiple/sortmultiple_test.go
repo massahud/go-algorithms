@@ -14,6 +14,7 @@ var functions = map[string]multisorter{
 	"SortArrayMapPreAllocated":      SortArrayMapPreAllocated,
 	"SortMapNoBigArray":             SortMapNoBigArray,
 	"SortMapPreAllocatedNoBigArray": SortMapPreAllocatedNoBigArray,
+	"SortArrayMerge":                SortArrayMerge,
 }
 
 func Test_allFunctionsShouldRunCorrectly(t *testing.T) {
@@ -80,11 +81,20 @@ func Test_allFunctionsShouldRunCorrectly(t *testing.T) {
 		t.Run(param.name, func(t *testing.T) {
 			for fName, fn := range functions {
 				t.Run(fName, func(t *testing.T) {
-					res := fn(param.lists...)
-					assert.Equal(t, param.expected, res)
+					copy := copyLists(param.lists)
+					res := fn(copy...)
+					assert.Equal(t, param.expected, res, fName)
 				})
 			}
 		})
 	}
 
+}
+
+func copyLists(lists [][]int) [][]int {
+	copy := make([][]int, len(lists))
+	for i := range copy {
+		copy[i] = append(copy[i], lists[i]...)
+	}
+	return copy
 }

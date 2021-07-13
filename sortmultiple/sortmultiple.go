@@ -1,6 +1,9 @@
 package sortmultiple
 
-import "sort"
+import (
+	"math"
+	"sort"
+)
 
 func SortArrayBigSort(lists ...[]int) []int {
 	bigList := CreateBigListWithCopy(lists...)
@@ -51,8 +54,8 @@ func SortArrayMapPreAllocated(lists ...[]int) []int {
 func SortMapNoBigArray(lists ...[]int) []int {
 
 	m := make(map[int]struct{})
-	for _, list := range lists {
-		for _, v := range list {
+	for i := range lists {
+		for _, v := range lists[i] {
 			if v > 0 {
 				m[v] = struct{}{}
 			}
@@ -73,8 +76,8 @@ func SortMapPreAllocatedNoBigArray(lists ...[]int) []int {
 		sz += len(lists[i])
 	}
 	m := make(map[int]struct{}, sz*16)
-	for _, list := range lists {
-		for _, v := range list {
+	for i := range lists {
+		for _, v := range lists[i] {
 			if v > 0 {
 				m[v] = struct{}{}
 			}
@@ -85,6 +88,48 @@ func SortMapPreAllocatedNoBigArray(lists ...[]int) []int {
 		ret = append(ret, k)
 	}
 	sort.Ints(ret)
+	return ret
+}
+
+func SortArrayMerge(lists ...[]int) []int {
+
+	var sz int
+	for i := range lists {
+		sort.Ints(lists[i])
+		sz += len(lists[i])
+	}
+	if sz == 0 {
+		return []int{}
+	}
+	ret := make([]int, 0, sz)
+	for {
+		min := int(math.MaxInt64)
+		listMin := -1
+		exit := true
+		for i := range lists {
+			if len(lists[i]) > 0 {
+				exit = false
+				if lists[i][0] > 0 {
+					if lists[i][0] <= min {
+						min = lists[i][0]
+						listMin = i
+					}
+				} else {
+					lists[i] = lists[i][1:]
+				}
+			}
+		}
+		if exit {
+			break
+		}
+		if listMin < 0 {
+			continue
+		}
+		lists[listMin] = lists[listMin][1:]
+		if len(ret) == 0 || ret[len(ret)-1] < min {
+			ret = append(ret, min)
+		}
+	}
 	return ret
 }
 
